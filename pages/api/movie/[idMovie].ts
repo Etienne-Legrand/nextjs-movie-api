@@ -20,12 +20,14 @@ export default async function handler(
         .findOne({ _id: new ObjectId(idMovie as string) });
       res.json({ status: 200, data: { movie: dbMovie } });
       break;
+
     case "PUT":
       const updated = await db
         .collection("movies")
         .updateOne({ _id: new ObjectId(idMovie as string) }, { $set: payload });
       res.json({ status: 200, data: { updated } });
       break;
+
     case "DELETE":
       const deleted = await db
         .collection("movies")
