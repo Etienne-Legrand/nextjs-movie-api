@@ -27,7 +27,7 @@ export default async function handler(
       break;
 
     case "POST":
-      const id = await db.collection("movies").insertOne(payload);
+      const id = await db.collection("comments").insertOne(payload);
       res.json({ status: 200, data: { id } });
       break;
   }
