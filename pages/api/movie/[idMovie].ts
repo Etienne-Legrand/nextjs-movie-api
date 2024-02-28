@@ -13,8 +13,24 @@ export default async function handler(
   const client = await clientPromise;
   const db = client.db("sample_mflix");
 
-  const dbMovie = await db
-    .collection("movies")
-    .findOne({ _id: new ObjectId(idMovie as string) });
-  res.json({ status: 200, data: { movie: dbMovie } });
+  switch (req.method) {
+    case "GET":
+      const dbMovie = await db
+        .collection("movies")
+        .findOne({ _id: new ObjectId(idMovie as string) });
+      res.json({ status: 200, data: { movie: dbMovie } });
+      break;
+    case "PUT":
+      const updated = await db
+        .collection("movies")
+        .updateOne({ _id: new ObjectId(idMovie as string) }, { $set: payload });
+      res.json({ status: 200, data: { updated } });
+      break;
+    case "DELETE":
+      const deleted = await db
+        .collection("movies")
+        .deleteOne({ _id: new ObjectId(idMovie as string) });
+      res.json({ status: 200, data: { deleted } });
+      break;
+  }
 }
