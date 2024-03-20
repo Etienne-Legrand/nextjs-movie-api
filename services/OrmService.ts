@@ -8,16 +8,17 @@ const connectToDb = async () => {
 };
 
 export const OrmService = {
+  // Read all movies
   connectAndFind: async (dbName: string, params: Object | null = null) => {
     const db = await connectToDb();
 
     if (params) {
       return await db.collection(dbName).find(params).limit(10).toArray();
     }
-
     return await db.collection(dbName).find({}).limit(10).toArray();
   },
 
+  // Read one movie
   connectAndFindOne: async (dbName: string, idObjectToFind: string) => {
     const db = await connectToDb();
     return await db
@@ -25,12 +26,14 @@ export const OrmService = {
       .findOne({ _id: new ObjectId(idObjectToFind as string) });
   },
 
+  // Create a new movie
   connectAndInsertOne: async (dbName: string, payload: any) => {
     const db = await connectToDb();
     const result = await db.collection(dbName).insertOne(payload);
     return result.insertedId;
   },
 
+  // Update a movie
   connectAndUpdateOne: async (
     dbName: string,
     idObjectToUpdate: string,
@@ -46,6 +49,7 @@ export const OrmService = {
     return result.modifiedCount;
   },
 
+  // Delete a movie
   connectAndDeleteOne: async (dbName: string, idObjectToDelete: string) => {
     const db = await connectToDb();
     const result = await db
