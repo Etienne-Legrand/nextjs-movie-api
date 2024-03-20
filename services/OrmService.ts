@@ -1,5 +1,5 @@
-import clientPromise from "../lib/mongodb";
-import { MongoConfigService } from "./MongoConfigService";
+import clientPromise from "@/lib/mongodb";
+import { MongoConfigService } from "@/services/MongoConfigService";
 import { ObjectId } from "mongodb";
 
 const connectToDb = async () => {
@@ -8,17 +8,27 @@ const connectToDb = async () => {
 };
 
 export const OrmService = {
-  // Read all movies
-  connectAndFind: async (dbName: string, params: Object | null = null) => {
+  // Read all
+  connectAndFind: async (dbName: string, filter: Object | null = null) => {
     const db = await connectToDb();
-
-    if (params) {
-      return await db.collection(dbName).find(params).limit(10).toArray();
-    }
-    return await db.collection(dbName).find({}).limit(10).toArray();
+    filter = filter || {};
+    return await db.collection(dbName).find(filter).limit(10).toArray();
   },
 
-  // Read one movie
+  // Read all by id and idProperty
+  connectAndFindAllById: async (
+    dbName: string,
+    idProperty: string,
+    idObjectToFind: string
+  ) => {
+    const db = await connectToDb();
+    return await db
+      .collection(dbName)
+      .find({ [idProperty]: new ObjectId(idObjectToFind as string) })
+      .toArray();
+  },
+
+  // Read one
   connectAndFindOne: async (dbName: string, idObjectToFind: string) => {
     const db = await connectToDb();
     return await db
@@ -26,14 +36,14 @@ export const OrmService = {
       .findOne({ _id: new ObjectId(idObjectToFind as string) });
   },
 
-  // Create a new movie
+  // Create one
   connectAndInsertOne: async (dbName: string, payload: any) => {
     const db = await connectToDb();
     const result = await db.collection(dbName).insertOne(payload);
     return result.insertedId;
   },
 
-  // Update a movie
+  // Update one
   connectAndUpdateOne: async (
     dbName: string,
     idObjectToUpdate: string,
@@ -49,7 +59,7 @@ export const OrmService = {
     return result.modifiedCount;
   },
 
-  // Delete a movie
+  // Delete one
   connectAndDeleteOne: async (dbName: string, idObjectToDelete: string) => {
     const db = await connectToDb();
     const result = await db
