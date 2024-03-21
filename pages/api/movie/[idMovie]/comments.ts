@@ -46,6 +46,7 @@ type ResponseData = {
  * /api/movie/{idMovie}/comments:
  *   get:
  *      summary: Get all comments for a movie
+ *      tags: [Comments]
  *      parameters:
  *       - name: idMovie
  *         in: path
@@ -64,6 +65,13 @@ type ResponseData = {
  *
  *   post:
  *     summary: Create a new comment for a movie
+ *     tags: [Comments]
+ *     parameters:
+ *       - name: idMovie
+ *         in: path
+ *         required: true
+ *         type: string
+ *         description: The id of the movie to which the comment is related
  *     requestBody:
  *       required: true
  *       content:
@@ -88,10 +96,10 @@ export default async function handler(
   const payload = req.body;
 
   switch (req.method) {
-    // Get all comments
+    // Get all comments for a movie
     case "GET":
       try {
-        const comments = await OrmService.connectAndFindAllById(
+        const comments = await OrmService.connectAndFindAll(
           MongoConfigService.collections.comments,
           "movie_id",
           idMovie as string
@@ -102,12 +110,14 @@ export default async function handler(
       }
       break;
 
-    // Create a new comment
+    // Create a new comment for a movie
     case "POST":
       try {
         const newCommentId = await OrmService.connectAndInsertOne(
           MongoConfigService.collections.comments,
-          payload
+          payload,
+          "movie_id",
+          idMovie as string
         );
         res.status(200).json({ data: { newCommentId } });
       } catch (error) {

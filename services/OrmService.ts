@@ -9,36 +9,57 @@ const connectToDb = async () => {
 
 export const OrmService = {
   // Read all
-  connectAndFind: async (dbName: string, filter: Object | null = null) => {
+  connectAndFindAll: async (
+    dbName: string,
+    relatedIdProperty?: string,
+    relatedIdObjectToFind?: string
+  ) => {
     const db = await connectToDb();
-    filter = filter || {};
+
+    // Construct the filter object based on the provided parameters
+    let filter = {};
+    if (relatedIdProperty && relatedIdObjectToFind) {
+      filter = {
+        [relatedIdProperty]: new ObjectId(relatedIdObjectToFind as string),
+      };
+    }
+    // Perform find operation using the provided filter
     return await db.collection(dbName).find(filter).limit(10).toArray();
   },
 
-  // Read all by id and idProperty
-  connectAndFindAllById: async (
+  // Read one
+  connectAndFindOne: async (
     dbName: string,
-    idProperty: string,
-    idObjectToFind: string
+    IdObjectToFind: string,
+    relatedIdProperty?: string,
+    relatedIdObjectToFind?: string
   ) => {
     const db = await connectToDb();
-    return await db
-      .collection(dbName)
-      .find({ [idProperty]: new ObjectId(idObjectToFind as string) })
-      .toArray();
-  },
 
-  // Read one
-  connectAndFindOne: async (dbName: string, idObjectToFind: string) => {
-    const db = await connectToDb();
-    return await db
-      .collection(dbName)
-      .findOne({ _id: new ObjectId(idObjectToFind as string) });
+    // Construct the filter object based on the provided parameters
+    let filter: any = { _id: new ObjectId(IdObjectToFind) };
+    if (relatedIdProperty && relatedIdObjectToFind) {
+      filter[relatedIdProperty] = new ObjectId(relatedIdObjectToFind);
+    }
+
+    // Perform findOne operation using the provided filter
+    return await db.collection(dbName).findOne(filter);
   },
 
   // Create one
-  connectAndInsertOne: async (dbName: string, payload: any) => {
+  connectAndInsertOne: async (
+    dbName: string,
+    payload: any,
+    relatedIdProperty?: string,
+    relatedIdObjectToFind?: string
+  ) => {
     const db = await connectToDb();
+
+    // Construct the payload object based on the provided parameters
+    if (relatedIdProperty && relatedIdObjectToFind) {
+      payload[relatedIdProperty] = new ObjectId(relatedIdObjectToFind);
+    }
+    // Perform insertOne operation using the provided payload
     const result = await db.collection(dbName).insertOne(payload);
     return result.insertedId;
   },
@@ -47,24 +68,40 @@ export const OrmService = {
   connectAndUpdateOne: async (
     dbName: string,
     idObjectToUpdate: string,
-    payload: any
+    payload: any,
+    relatedIdProperty?: string,
+    relatedIdObjectToFind?: string
   ) => {
     const db = await connectToDb();
+
+    // Construct the filter object based on the provided parameters
+    let filter: any = { _id: new ObjectId(idObjectToUpdate) };
+    if (relatedIdProperty && relatedIdObjectToFind) {
+      filter[relatedIdProperty] = new ObjectId(relatedIdObjectToFind);
+    }
+
     const result = await db
       .collection(dbName)
-      .updateOne(
-        { _id: new ObjectId(idObjectToUpdate as string) },
-        { $set: payload }
-      );
+      .updateOne(filter, { $set: payload });
     return result.modifiedCount;
   },
 
   // Delete one
-  connectAndDeleteOne: async (dbName: string, idObjectToDelete: string) => {
+  connectAndDeleteOne: async (
+    dbName: string,
+    idObjectToDelete: string,
+    relatedIdProperty?: string,
+    relatedIdObjectToFind?: string
+  ) => {
     const db = await connectToDb();
-    const result = await db
-      .collection(dbName)
-      .deleteOne({ _id: new ObjectId(idObjectToDelete as string) });
+
+    // Construct the filter object based on the provided parameters
+    let filter: any = { _id: new ObjectId(idObjectToDelete) };
+    if (relatedIdProperty && relatedIdObjectToFind) {
+      filter[relatedIdProperty] = new ObjectId(relatedIdObjectToFind);
+    }
+    // Perform deleteOne operation using the provided filter
+    const result = await db.collection(dbName).deleteOne(filter);
     return result.deletedCount;
   },
 };
