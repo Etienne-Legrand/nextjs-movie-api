@@ -94,6 +94,7 @@ type ResponseData = {
  * /api/movies:
  *   get:
  *      summary: Get all movies
+ *      tags: [Movies]
  *      responses:
  *        200:
  *          description: Returns all movies
@@ -106,6 +107,7 @@ type ResponseData = {
  *
  *   post:
  *     summary: Create a new movie
+ *     tags: [Movies]
  *     requestBody:
  *       required: true
  *       content:
@@ -133,7 +135,7 @@ export default async function handler(
     // Get all movies
     case "GET":
       try {
-        const movies = await OrmService.connectAndFind(
+        const movies = await OrmService.connectAndFindAll(
           MongoConfigService.collections.movies
           // { _id: new ObjectId("573a1390f29313caabcd446f" as string) }
         );

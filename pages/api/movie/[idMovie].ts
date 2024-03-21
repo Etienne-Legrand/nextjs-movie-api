@@ -1,4 +1,3 @@
-import { ObjectId } from "mongodb";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { OrmService } from "@/services/OrmService";
 import { MongoConfigService } from "@/services/MongoConfigService";
@@ -13,6 +12,7 @@ type ResponseData = {
  * /api/movie/{id}:
  *   get:
  *     summary: Retrieve a movie
+ *     tags: [Movies]
  *     parameters:
  *       - name: id
  *         in: path
@@ -33,6 +33,7 @@ type ResponseData = {
  *
  *   put:
  *     summary: Update a movie
+ *     tags: [Movies]
  *     parameters:
  *       - name: id
  *         in: path
@@ -62,6 +63,7 @@ type ResponseData = {
  *
  *   delete:
  *     summary: Delete a movie
+ *     tags: [Movies]
  *     parameters:
  *       - name: id
  *         in: path

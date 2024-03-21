@@ -9,5 +9,15 @@ const swaggerHandler = withSwagger({
       version: "1.0",
     },
   },
+  tags: [
+    {
+      name: "Movies",
+      description: "API for movies",
+    },
+    {
+      name: "Comments",
+      description: "API for comments",
+    },
+  ],
 });
 export default swaggerHandler();
