@@ -57,7 +57,7 @@ export default function Home({
           {/* API */}
           <div className="col-span-full sm:col-span-3 lg:col-span-2 overflow-hidden relative p-8 rounded-xl bg-white border border-gray-200 dark:border-gray-800 dark:bg-gray-900 flex flex-col justify-center items-center">
             <Link href="/api/movies">
-              <Image src="/API.png" alt="API" width={300} height={256} />
+              <Image src="/API.png" alt="API" width={250} height={213.3} />
               <h2 className="mt-6 text-center font-semibold text-gray-950 dark:text-white text-lg">
                 Accéder à l'API
               </h2>

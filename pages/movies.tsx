@@ -16,7 +16,7 @@ const Movies = () => {
   }, []);
 
   return (
-    <div className="bg-gray-200 dark:bg-gray-800 h-screen">
+    <div className="bg-gray-200 dark:bg-gray-800">
       <h1 className="text-3xl font-bold text-center text-gray-800 dark:text-gray-200 py-16">
         50 films aléatoires
       </h1>

@@ -6,7 +6,7 @@ interface MovieCardProps {
 }
 
 const MovieCard: React.FC<MovieCardProps> = ({
-  movie: { title, plot, poster, year, imdb },
+  movie: { title, plot, poster, year, imdb, runtime },
 }) => {
   return (
     <div className="grid rounded-3xl max-w-[370px] shadow-sm bg-white dark:bg-gray-600 flex-col">
@@ -54,9 +54,11 @@ const MovieCard: React.FC<MovieCardProps> = ({
           </div>
           <div className="flex flex-col items-end">
             <div className="h-7" />
-            <span className="text-3xl  font-bold  gap-x-2 text-slate-300">
-              # 8
-            </span>
+            {runtime && (
+              <span className="text-lg  font-bold  gap-x-2 text-slate-300">
+                {Math.floor(runtime / 60)}h {runtime % 60}min
+              </span>
+            )}
           </div>
         </div>
       </div>
