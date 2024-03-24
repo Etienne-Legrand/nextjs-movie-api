@@ -33,7 +33,7 @@ export default function Home({
         Movie API
       </h2>
       <div className="mx-auto px-6 max-w-6xl text-gray-500">
-        <div className="relative z-10 grid gap-3 grid-cols-6">
+        <div className="relative z-10 grid gap-3 grid-cols-4">
           {/* MongoDB */}
           <div className="col-span-full sm:col-span-3 lg:col-span-2 overflow-hidden relative p-8 rounded-xl bg-white border border-gray-200 dark:border-gray-800 dark:bg-gray-900 flex flex-col justify-center items-center">
             <Image
@@ -56,7 +56,7 @@ export default function Home({
 
           {/* API */}
           <div className="col-span-full sm:col-span-3 lg:col-span-2 overflow-hidden relative p-8 rounded-xl bg-white border border-gray-200 dark:border-gray-800 dark:bg-gray-900 flex flex-col justify-center items-center">
-            <Link href="/api">
+            <Link href="/api/movies">
               <Image src="/API.png" alt="API" width={300} height={256} />
               <h2 className="mt-6 text-center font-semibold text-gray-950 dark:text-white text-lg">
                 Accéder à l'API
@@ -75,6 +75,21 @@ export default function Home({
               />
               <h2 className="mt-6 text-center font-semibold text-gray-950 dark:text-white text-lg">
                 Accéder au Swagger
+              </h2>
+            </Link>
+          </div>
+
+          {/* Swagger */}
+          <div className="col-span-full sm:col-span-3 lg:col-span-2 overflow-hidden relative p-8 rounded-xl bg-white border border-gray-200 dark:border-gray-800 dark:bg-gray-900 flex flex-col justify-center items-center">
+            <Link href="/movies">
+              <Image
+                src="/movie.png"
+                alt="Swagger logo"
+                width={400}
+                height={400}
+              />
+              <h2 className="mt-6 text-center font-semibold text-gray-950 dark:text-white text-lg">
+                Voir les films
               </h2>
             </Link>
           </div>

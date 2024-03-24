@@ -24,7 +24,13 @@ export const OrmService = {
       };
     }
     // Perform find operation using the provided filter
-    return await db.collection(dbName).find(filter).limit(10).toArray();
+    return await db
+      .collection(dbName)
+      .aggregate([
+        { $match: filter }, // Filter the documents
+        { $sample: { size: 50 } }, // Select 50 random documents
+      ])
+      .toArray();
   },
 
   // Read one
