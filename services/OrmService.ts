@@ -22,13 +22,18 @@ export const OrmService = {
       filter = {
         [relatedIdProperty]: new ObjectId(relatedIdObjectToFind as string),
       };
+    } else {
+      // Filter the documents with more than 1 comment only just for DEVELOPMENT
+      filter = {
+        ["num_mflix_comments"]: { $gt: 1 },
+      };
     }
     // Perform find operation using the provided filter
     return await db
       .collection(dbName)
       .aggregate([
         { $match: filter }, // Filter the documents
-        { $sample: { size: 50 } }, // Select 50 random documents
+        { $sample: { size: 50 } }, // Select 50 random documents just for DEVELOPMENT
       ])
       .toArray();
   },
