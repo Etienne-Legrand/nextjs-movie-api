@@ -1,7 +1,6 @@
-import { OrmService } from "../../services/OrmService";
-import { MongoConfigService } from "../../services/MongoConfigService";
+import { OrmService } from "@/services/OrmService";
+import { MongoConfigService } from "@/services/MongoConfigService";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { ObjectId } from "mongodb";
 
 type ResponseData = {
   data?: any;
@@ -137,7 +136,6 @@ export default async function handler(
       try {
         const movies = await OrmService.connectAndFindAll(
           MongoConfigService.collections.movies
-          // { _id: new ObjectId("573a1390f29313caabcd446f" as string) }
         );
         res.status(200).json({ data: movies });
       } catch (error) {
